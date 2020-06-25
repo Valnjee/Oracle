@@ -1,0 +1,42 @@
+CREATE OR ALTER VIEW customer_category_sales AS
+SELECT 
+    category_name category, 
+    customers.name customer, 
+    SUM(quantity*unit_price) sales_amount
+FROM 
+    orders
+    INNER JOIN customers USING(customer_id)
+    INNER JOIN order_items USING (order_id)
+    INNER JOIN products USING (product_id)
+    INNER JOIN product_categories USING (category_id)
+WHERE 
+    customer_id IN (1,2)
+GROUP BY 
+    category_name, 
+    customers.name;
+    
+    SELECT
+    category,
+    customer,
+    SUM(sales_amount) 
+FROM 
+    customer_category_sales
+GROUP BY 
+    CUBE(category,customer)
+ORDER BY 
+    category NULLS LAST, 
+    customer NULLS LAST;
+    
+    
+    SELECT
+    category,
+    customer,
+    SUM(sales_amount) 
+FROM 
+    customer_category_sales
+GROUP BY 
+    category,
+    CUBE(customer)
+ORDER BY 
+    category, 
+    customer NULLS LAST; 
