@@ -1,0 +1,46 @@
+SELECT
+    order_id,
+    customer_id,
+    status,
+    order_date
+FROM
+    orders
+WHERE
+    order_date BETWEEN DATE '2016-12-01' AND DATE '2016-12-31'
+ORDER BY
+    order_date;
+    
+    //Results
+    
+ORDER_ID	CUSTOMER_ID	STATUS	ORDER_DATE
+87	7	Canceled	01-DEC-16
+85	4	Pending	01-DEC-16
+83	16	Shipped	02-DEC-16
+82	44	Shipped	03-DEC-16
+81	49	Shipped	13-DEC-16
+80	3	Shipped	13-DEC-16
+79	2	Shipped	14-DEC-16
+102	45	Shipped	20-DEC-16
+
+
+SELECT
+    product_name,
+    standard_cost
+FROM
+    products
+WHERE
+    standard_cost NOT BETWEEN 500 AND 600
+ORDER BY
+    product_name;
+    
+    
+SELECT
+    product_name,
+    DESCRIPTION,
+    standard_cost
+FROM
+    products
+WHERE
+    standard_cost BETWEEN 500 AND 600
+ORDER BY
+    standard_cost;    
