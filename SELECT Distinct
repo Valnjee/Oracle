@@ -1,0 +1,6 @@
+SELECT DISTINCT
+  first_name
+FROM
+  contacts
+ORDER BY
+  first_name;
