@@ -1,0 +1,27 @@
+//Create a view
+
+CREATE VIEW order_stats AS
+SELECT 
+    category_name, 
+    status, 
+    order_id
+FROM 
+    order_items
+INNER JOIN orders USING (order_id)
+INNER JOIN products USING (product_id)
+INNER JOIN product_categories USING (category_id);
+
+//Then create a PIVOT from the view to return the number of orders for each product category by order status:
+
+SELECT * FROM order_stats
+PIVOT(
+    COUNT(order_id) 
+    FOR category_name
+    IN ( 
+        'CPU',
+        'Video Card',
+        'Mother Board',
+        'Storage'
+    )
+)
+ORDER BY status;
