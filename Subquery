@@ -1,0 +1,36 @@
+//The query that retrieves the max price is called the subquery and the query that selects the detailed product data is called the outer query
+
+
+SELECT
+    product_id,
+    product_name,
+    list_price
+FROM
+    products
+WHERE
+    list_price = (
+        SELECT
+            MAX( list_price )
+        FROM
+            products
+    );
+
+//Second example
+SELECT
+    product_name,
+    list_price,
+    ROUND(
+        (
+            SELECT
+                AVG( list_price )
+            FROM
+                products p1
+            WHERE
+                p1. category_id = p2.category_id
+        ),
+        2
+    ) avg_list_price
+FROM
+    products p2
+ORDER BY
+    product_name;
