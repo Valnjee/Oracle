@@ -1,0 +1,40 @@
+SELECT
+    product_name,
+    description,
+    list_price,
+    category_id
+FROM
+    products
+WHERE
+    product_name = 'Kingston';
+    
+    
+SELECT
+    product_name,
+    list_price
+FROM
+    products
+WHERE
+    list_price > 500;
+    
+    
+SELECT
+    product_name,
+    list_price
+FROM
+    products
+WHERE
+    list_price > 500
+    AND category_id = 4;
+    
+
+SELECT
+    product_name,
+    list_price
+FROM
+    products
+WHERE
+    list_price BETWEEN 650 AND 680
+ORDER BY
+    list_price;
+    
