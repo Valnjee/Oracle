@@ -1,0 +1,8 @@
+SELECT
+    product_id,
+    warehouse_id,
+    ROUND( dbms_random.value( 10, 100 )) quantity
+FROM
+    products 
+CROSS JOIN warehouses;
+
