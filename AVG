@@ -1,0 +1,173 @@
+
+Oracle AVG() syntax
+The Oracle AVG() function accepts a list of values and returns the average.
+
+The following illustrates the syntax of the Oracle AVG() function:
+
+AVG([DISTINCT | ALL ] expression)
+Code language: SQL (Structured Query Language) (sql)
+The AVG() function can accept a clause which is either DISTINCT or ALL.
+
+The DISTINCT clause instructs the function to ignore the duplicate values while the ALL clause causes the function to consider all the duplicate values.
+
+For example, the average DISTINCT of 1, 1, 2, and 3 is (1 + 2 + 3 ) / 3 = 2, while the average ALL of 1, 1, 2, and 3 is (1 + 1 + 2 + 3) /4 = 1.75
+
+The AVG() function ignores NULL values. For example, the average of 2, 4, and NULL is (2 + 4) /2 = 3.
+
+Oracle AVG() examples
+We will use the products table in the sample database for the demonstration.
+
+products table
+A) Simple Oracle AVG() example
+The following example calculates the average standard costs of all products:
+
+SELECT
+    ROUND(AVG( standard_cost ), 2) avg_std_cost
+FROM
+    products;
+Code language: SQL (Structured Query Language) (sql)
+Oracle AVG - average standard cost
+Notice that we used the ROUND() function to return the average standard cost rounded to 2 decimal places.
+
+You can also use multiple AVG() functions in the same query. For example, the following statement calculates the averages of standard costs and list prices:
+
+SELECT
+    ROUND(AVG( standard_cost ),2) avg_std_cost,
+    ROUND(AVG( list_price ), 2) avg_list_price
+FROM
+    products;
+Code language: SQL (Structured Query Language) (sql)
+Oracle AVG - average standard cost and list price
+B) Oracle AGV() with DISTINCT clause
+The following statement calculates the average DISTINCT list prices:
+
+SELECT
+    ROUND(
+        AVG( DISTINCT list_price ),
+        2
+    ) avg_list_price
+FROM
+    products;
+Code language: SQL (Structured Query Language) (sql)
+Oracle AVG - DISTINCT
+The result of the average DISTINCT is different from the average ALL above because some products have the same list prices.
+
+C) Oracle AVG() with GROUP BY clause
+The following example calculates the average list price of products by category:
+
+SELECT
+    category_id,
+    ROUND(
+        AVG( list_price ),
+        2
+    ) avg_list_price
+FROM
+    products
+GROUP BY
+    category_id;
+Code language: SQL (Structured Query Language) (sql)
+Oracle AVG - GROUP BY
+In this example, the GROUP BY clause divides the products by category and then the AVG() function returns the average for each group.
+
+To make the result more readable, you can also retrieve the category name by adding an INNER JOIN clause to the query above:
+
+SELECT
+    category_name,
+    ROUND( AVG( list_price ),2 ) avg_list_price
+FROM
+    products
+INNER JOIN product_categories
+        USING(category_id)
+GROUP BY
+    category_name
+ORDER BY
+    category_name;
+Code language: SQL (Structured Query Language) (sql)
+Oracle AVG - GROUP BY with INNER JOIN
+D) Oracle AVG() with HAVING clause
+The following example returns the product categories whose average list prices are greater than 1000 specified by the HAVING clause:
+
+SELECT
+    category_name,
+    ROUND(
+        AVG( list_price ),
+        2
+    ) avg_list_price
+FROM
+    products
+INNER JOIN product_categories
+        USING(category_id)
+GROUP BY
+    category_name
+HAVING
+    AVG( list_price )> 1000
+ORDER BY
+    category_name;
+Code language: SQL (Structured Query Language) (sql)
+Oracle AVG - HAVING
+The following HAVING clause is used to filter groups of product categories.
+
+HAVING
+        AVG( list_price )> 1000 
+Code language: SQL (Structured Query Language) (sql)
+E) Oracle AVG() with subquery
+Consider the following example:
+
+SELECT
+    ROUND( AVG( avg_list_price ), 2) avg_of_avg
+FROM
+    (
+        SELECT
+            AVG( list_price ) avg_list_price
+        FROM
+            products
+        GROUP BY
+            category_id
+    );
+Code language: SQL (Structured Query Language) (sql)
+Oracle AVG - AVG of AVG
+In this example:
+
+The subquery returns the average list prices by product category.
+The outer query returns the average of the average list prices per product category.
+F) Oracle AVG() with NULL values
+Let’s create a new table named tests for the demonstration.
+
+CREATE TABLE tests (
+  employee_id NUMBER PRIMARY KEY,
+  score NUMBER(3,1)
+);
+
+INSERT INTO tests(employee_id, score) VALUES(1, 95);
+INSERT INTO tests(employee_id, score) VALUES(2, 70);
+INSERT INTO tests(employee_id, score) VALUES(3, 60);
+INSERT INTO tests(employee_id, score) VALUES(4, null);
+
+SELECT * FROM tests;
+Code language: SQL (Structured Query Language) (sql)
+Oracle AVG - tests table
+The following statement calculates the average score of all employees:
+
+SELECT
+    AVG( score )
+FROM
+    tests;
+Code language: SQL (Structured Query Language) (sql)
+The result is:
+
+Oracle AVG - NULL
+As mentioned earlier, the AVG() function ignores NULL values.
+
+G) Oracle AVG() with NVL() function
+If you want to treat the NULL value as zero for calculating the average, you can use AVG() function together with the NVL() function:
+
+SELECT
+    AVG( NVL( score, 0 ))
+FROM
+    tests;
+Code language: SQL (Structured Query Language) (sql)
+The NVL() function returns 0 if the score is null. Otherwise, it returns the score.
+
+Here is the result:
+
+Oracle AVG - NVL
