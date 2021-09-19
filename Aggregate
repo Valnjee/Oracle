@@ -1,0 +1,38 @@
+
+Introduction to Oracle aggregate functions
+Oracle aggregate functions calculate on a group of rows and return a single value for each group.
+
+We commonly use the aggregate functions together with the GROUP BY clause. 
+The GROUP BY clause divides the rows into groups and an aggregate function calculates and returns a single result for each group.
+
+If you use aggregate functions without a GROUP BY clause, then the aggregate functions apply to all rows of the queried tables or views.
+
+We also use the aggregate functions in the HAVING clause to filter groups from the output based on the results of the aggregate functions.
+
+Oracle aggregate functions can appear in SELECT lists and ORDER BY, GROUP BY, and HAVING clauses.
+
+DISTINCT vs. ALL
+Some aggregate functions accept DISTINCT or ALL clause.
+
+The DISTINCT clause instructs an aggregate function to consider only distinct values of the argument.
+The ALL clause causes an aggregate function to take all values into the calculation, including duplicates.
+For example, the DISTINCT average of 2, 2, 2 and 4 is 3, which is the result of (2 + 4) / 2. 
+However, the ALL average of 2, 2, 2 and 4 is 2.5, which is the result of (2 + 2 + 2 + 4) / 4.
+
+Oracle uses the ALL clause by default if you don’t explicitly specify any clause.
+
+NULL treatments
+All aggregate functions ignore null values except COUNT(*), GROUPING(), and GROUPING_ID().
+
+If you want to substitute a value e.g., zero for a null value, you use the NVL() function.
+
+The COUNT() and REGR_COUNT() functions never return null, but either a number or zero (0). 
+Other aggregate functions return NULL if the input data set contains NULL or has no rows.
+
+Oracle aggregate function list
+AVG
+COUNT
+LISTAGG
+MAX
+MIN
+SUM
